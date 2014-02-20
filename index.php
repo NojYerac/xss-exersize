@@ -1,13 +1,22 @@
 <?php
 require_once('config.php');
 require_once('comp.php');
-
+require_once('filter.php');
 session_start();
 
+if (isset($_POST['case_sensitive'])) {
+	$_SESSION['case_sensitive'] = 
+		($_POST['case_sensitive'] == 'on');
+}
+
+if (isset($_POST['filters'])) {
+	$_SESSION['filters'] = $_POST['filters'];
+}
+
+/*
 if (!isset($_SESSION['blacklist'])) {
 	$_SESSION['blacklist'] = '0';
 }
-
 
 if (isset($_POST['blacklist'])) {
 	$bl_levels = array('0','1','2','3');
@@ -81,10 +90,14 @@ function text($value, $bl_level) {
 		return 'Filter level not implemented try low, medium, or high.';
 	}
 }
-$xss = array();
-foreach ($spaces as $space) {
-	$xss[$space] = ($_GET[$space]?$space($_GET[$space], $bl_level):'');
+ */
 
+$spaces = array('script', 'attribute', 'text');
+$xss = array();
+
+foreach ($spaces as $space) {
+//	$xss[$space] = ($_GET[$space]?$space($_GET[$space], $bl_level):'');
+	$xss[$space] = ($_GET[$space]?filter_user_input($_GET[$space]):'');
 };
 
 $inputs = '<h2>Injectors</h2>' .
@@ -121,7 +134,7 @@ $script_space = sprintf('<script>var MadeUp = \'%s\';</script>', $xss['script'])
 $attribute_space = sprintf('<input type="text" value="%s"></input>', $xss['attribute']);
 
 $text_space = sprintf('<p>Hello, %s!</p>', $xss['text']);
-
+/*
 $set_bl_level_inputs = '<h2>Set the filter level.</h2><table><tr>';
 
 foreach (array('0','1','2','3') as $level) {
@@ -137,16 +150,25 @@ foreach (array('0','1','2','3') as $level) {
 $set_bl_level_inputs .= '</tr></table><br/>' . inputify('submit', 'submit', array('value' => 'Set!')) . '<br/>';
 
 $set_bl_form = formify('POST', BASE_URL, $set_bl_level_inputs, array());
+ */
+
+$filters_form = '<h2>Select the filters</h2>' .
+	formify('POST', BASE_URL, get_filters_select(), array());
+
+$attribution = "<!--This source code for this site can be found" .
+       " at https://github.com/NojYerac/xss-exersize -->";
 
 $body = get_body(
 	$title .
 	$instructions .
 	$form .
 	'<hr/>' .
-	$set_bl_form .
+	$filters_form .
+//	$set_bl_form .
 	'<hr/>' .
 	$script_space .
 	$attribute_space .
+	$attribution .
 	$text_space,
 	array()
 );
