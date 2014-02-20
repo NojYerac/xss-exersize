@@ -2,6 +2,7 @@
 
 function get_filters_select() {
 	$potential_filters = array(
+		'/none/' =>	'none',
 		'/<script>/' =>	'',
 		'/</'	=>	'&lt;',
 		'/>/'	=>	'&gt;',
