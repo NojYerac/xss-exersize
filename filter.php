@@ -1,21 +1,20 @@
 <?php
-$potential_filters = array(
-	'/<script>/' =>	'',
-	'/</'	=>	'&lt;',
-	'/>/'	=>	'&gt;',
-	'/"/'	=>	'&quot;',
-	"/'/"	=>	'&apos;',
-	'/on[a-z]=/' =>	'',
-	'/<.*>/' =>	'',
-	'/=/'	=>	'',
-	'/[()]/' =>	'',
-	'/;/'	=>	'&semi;',
-	'/:/'	=>	'&colon;',
-
-);
-
 
 function get_filters_select() {
+	$potential_filters = array(
+		'/<script>/' =>	'',
+		'/</'	=>	'&lt;',
+		'/>/'	=>	'&gt;',
+		'/"/'	=>	'&quot;',
+		"/'/"	=>	'&apos;',
+		'/on[a-z]*=/' =>	'onxxx=',
+		'/<.*>/' =>	'<xxx>',
+		'/=/'	=>	'',
+		'/[()]/' =>	'',
+		'/;/'	=>	'&semi;',
+		'/:/'	=>	'&colon;',
+	);
+
 	$cs_defs = array(
 		'label' => 'Case Sensitive: ',
 	);
@@ -23,21 +22,22 @@ function get_filters_select() {
 		$cs_defs['checked'] = 'checked';
 	}
 	$filters_select = inputify('checkbox', 'case_sensitive', $cs_defs) .
-		'<select name="filters" multiple="multiple">';
+		'<br/>' . '<select name="filters[]" style="width:200px;height:240px;" multiple="multiple">';
 	foreach ($potential_filters as $key => $value) {
 		$option_defs = array(
 			'tag' => 'option',
-			'value' => $key,
+			'value' => htmlentities($key),
 			'innerHTML' => htmlentities($key . " => " . $value),
 		);
 		if (isset($_SESSION['filters']) &&
-			array_key_exists($key, $_SESSION['filters'])) {
-			$option_defs['checked'] = 'checked';
+			in_array($key, $_SESSION['filters'])) {
+			$option_defs['selected'] = 'selected';
 		}
 		$filters_select .= tagify($option_defs);
 	}
-	$filters_select .= '</select>';
-	return $filters_select;
+	$filters_select .= '</select><br/>' .
+		inputify('submit', 'submit', array('value' => 'Set Filters'));
+	return formify('POST', BASE_URL,  $filters_select, array());
 }
 
 function filter_user_input($input) {

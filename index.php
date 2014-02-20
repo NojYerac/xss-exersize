@@ -3,101 +3,29 @@ require_once('config.php');
 require_once('comp.php');
 require_once('filter.php');
 session_start();
-
-if (isset($_POST['case_sensitive'])) {
-	$_SESSION['case_sensitive'] = 
-		($_POST['case_sensitive'] == 'on');
-}
-
-if (isset($_POST['filters'])) {
+/* uncoment to see Session variables printed to the page
+if (isset($_POST['filters']) || isset($_POST['case_sensitive'])) {
 	$_SESSION['filters'] = $_POST['filters'];
+	$_SESSION['case_sensitive'] = isset($_POST['case_sensitive']);
+} elseif (!isset($_SESSION['filters']) || !isset($_SESSION['case_sensitive'])) {
+	$_SESSION['filters'] = array();
+	$_SESSION['case_sensitive'] = true;
 }
-
-/*
-if (!isset($_SESSION['blacklist'])) {
-	$_SESSION['blacklist'] = '0';
-}
-
-if (isset($_POST['blacklist'])) {
-	$bl_levels = array('0','1','2','3');
-	$_SESSION['blacklist'] = 
-		(in_array($_POST['blacklist'], $bl_levels)?$_POST['blacklist']:'0');
-}
-
-$bl_level = $_SESSION['blacklist'];
-
-$spaces = array('script', 'attribute', 'text');
-
-function script($value, $bl_level) {
-	switch ($bl_level) {
-	case '0':
-		return $value;
-		break;
-	case '1':
-		return preg_replace('/<script>/', '', $value);
-		break;
-	case '2':
-		return preg_replace(
-			array('/</', '/>/'),
-			array('&lt;', '&gt;'),
-			$value);
-		break;
-	case '3':
-		return preg_replace('/[<>\"\'()]/', '', $value);
-	default:
-		return 'Filter level not implemented try 0, 1, 2 or 3.';
+foreach ($_SESSION as $key => $value) {
+	if (is_array($value)) {
+		foreach ($value as $v) {
+			echo htmlentities("$key => $v");
+		}
+	} else {
+		echo htmlentities("$key => $value");
 	}
-}
-
-function attribute($value, $bl_level) {
-	switch ($bl_level) {
-	case '0':
-		return $value;
-		break;
-	case '1':
-		return preg_replace('/<script>/', '', $value);
-		break;
-	case '2':
-		return preg_replace(
-			array('/</', '/>/'),
-			array('&lt;', '&gt;'),
-			$value);
-		break;
-	case '3':
-		return preg_replace('/[<>\"\'()]/', '', $value);
-	default:
-		return 'Filter level not implemented try low, medium, or high.';
-	}
-}
-
-function text($value, $bl_level) {
-	switch ($bl_level) {
-	case '0':
-		return $value;
-		break;
-	case '1':
-		return preg_replace('/<script>/', '', $value);
-		break;
-	case '2':
-		return preg_replace(
-			array('/</', '/>/'),
-			array('&lt;', '&gt;'),
-			$value);
-		break;
-	case '3':
-		return preg_replace('/[<>\"\'()]/', '', $value);
-	default:
-		return 'Filter level not implemented try low, medium, or high.';
-	}
-}
- */
+}*/
 
 $spaces = array('script', 'attribute', 'text');
 $xss = array();
 
 foreach ($spaces as $space) {
-//	$xss[$space] = ($_GET[$space]?$space($_GET[$space], $bl_level):'');
-	$xss[$space] = ($_GET[$space]?filter_user_input($_GET[$space]):'');
+	$xss[$space] = (isset($_GET[$space])?filter_user_input($_GET[$space]):'');
 };
 
 $inputs = '<h2>Injectors</h2>' .
@@ -134,34 +62,18 @@ $script_space = sprintf('<script>var MadeUp = \'%s\';</script>', $xss['script'])
 $attribute_space = sprintf('<input type="text" value="%s"></input>', $xss['attribute']);
 
 $text_space = sprintf('<p>Hello, %s!</p>', $xss['text']);
-/*
-$set_bl_level_inputs = '<h2>Set the filter level.</h2><table><tr>';
 
-foreach (array('0','1','2','3') as $level) {
-	$set_bl_level_inputs .= '<td>' .
-		inputify('radio', 'bl_' . $level, array(
-		'value' => $level,
-		'name' => 'blacklist',
-		'label' => $level . ': ',
-	       	(($level == $bl_level)?'checked':'unchecked') => '')
-		) . '</td>';
-}
-
-$set_bl_level_inputs .= '</tr></table><br/>' . inputify('submit', 'submit', array('value' => 'Set!')) . '<br/>';
-
-$set_bl_form = formify('POST', BASE_URL, $set_bl_level_inputs, array());
- */
-
-$filters_form = '<h2>Select the filters</h2>' .
-	formify('POST', BASE_URL, get_filters_select(), array());
+$filters_form = '<h2>Select the filters</h2>' .	get_filters_select();
 
 $attribution = "<!--This source code for this site can be found" .
        " at https://github.com/NojYerac/xss-exersize -->";
 
 $body = get_body(
 	$title .
+	'<div class="feature-box">' . 
 	$instructions .
 	$form .
+	'</div>' .
 	'<hr/>' .
 	$filters_form .
 //	$set_bl_form .
