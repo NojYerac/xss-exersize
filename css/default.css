@@ -1,0 +1,91 @@
+/* tags */
+
+body {
+	background-color:black;
+	color:white;
+	font-family:sans-serif;
+}
+
+h1 {
+	font-size:40pt;
+	color: #aaa;
+	text-align: center;
+}
+
+h2 {
+	font-size:25pt;
+	color:blue;
+}
+
+h4 {
+	font-size: 16pt;
+}
+
+p {
+	font-size:12pt;
+}
+
+form {
+	color: white;
+}
+
+ol {
+	text-align: left;
+}
+
+/*
+th {
+	text-align:right;
+}
+*/
+
+/* classes */
+
+.hidden {display: none;}
+
+.visible {display: block;}
+
+.tooltip {
+	font-size: 10pt;
+	padding: 20px;
+	/*margin: 20px;*/
+	border-radius: 10px;
+	position:absolute;
+	background-color: #555;
+	color: #FF9;
+	font-size: 14pt;
+	text-align: center;
+}
+/*
+h4.tooltip {
+	font-size: 14pt;
+	text-align: center;
+}
+
+p.tooltip {
+	font-size: 10pt;
+	text-align: left;
+}*/
+
+div.feature-box {
+	margin: 100px;
+	padding: 30px;
+	border-radius: 10px;
+}
+
+.feature-box {
+	background-color: #EEE;
+	color: #333;
+	font-size: 20pt;
+	text-align: center;
+}
+
+.header {
+	}
+
+/* IDs */
+
+/*#poem {
+	text-align: center;
+	font-size: 14pt;
+}*/
