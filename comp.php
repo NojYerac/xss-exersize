@@ -148,7 +148,7 @@ function get_default_head() {
 		tagify(array(
 			'tag'	=>	'meta',
 			'name'	=>	'generator',
-			'content' =>	'NojY v0.1'
+			'content' =>	'xss-exersize v0.1'
 		)) //additional meta tags
 	);
 	return get_head(TITLE, array_merge($script_tags, $css_tags, $meta_tags), array());
