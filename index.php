@@ -55,7 +55,8 @@ $form = formify('GET', BASE_URL, $inputs, array());
 
 $title = '<h1>Try to execute javascript.</h1>';
 
-$instructions = "<h2>Instructions</h2><p>Don&apos;t you wish there were some instructions here?</p>";
+$instructions = "<h2>Instructions</h2><p>Inject the javascript function call " .
+	"&quot;youWin()&quot to see a neat picture.</p>";
 
 $script_space = sprintf('<script>var MadeUp = \'%s\';</script>', $xss['script']);
 
@@ -68,10 +69,15 @@ $filters_form = '<h2>Select the filters</h2>' .	get_filters_select();
 $attribution = "<!--This source code for this site can be found" .
        " at https://github.com/NojYerac/xss-exersize -->";
 
+$tah_dah = '<div id="tah-dah" class="hidden">' .
+	'<img src="' . BASE_URL . '/tah-dah/' . rand(1, 5) . '.jpeg" />' .
+	'</div>';
+
 $body = get_body(
 	$title .
 	'<div class="feature-box">' . 
 	$instructions .
+	$tah_dah .
 	$form .
 	'</div>' .
 	'<hr/>' .
