@@ -71,15 +71,18 @@ $attribution = "<!--This source code for this site can be found" .
 
 $tah_dah = '<div id="tah-dah" class="hidden">' .
 	'<img src="' . BASE_URL . '/tah-dah/' . rand(1, 5) . '.jpeg" />' .
+	'<br/>' .
+	'<button onclick="resetChalenge()">Reset</button>' .
 	'</div>';
 
 $body = get_body(
 	$title .
 	'<div class="feature-box">' . 
-	$instructions .
 	$tah_dah .
+	'<div id="chalenge">' . 
+	$instructions .
 	$form .
-	'</div>' .
+	'</div></div>' .
 	'<hr/>' .
 	$filters_form .
 //	$set_bl_form .
