@@ -3,7 +3,6 @@ require_once('config.php');
 require_once('comp.php');
 require_once('filter.php');
 session_start();
-/* uncoment to see Session variables printed to the page
 if (isset($_POST['filters']) || isset($_POST['case_sensitive'])) {
 	$_SESSION['filters'] = $_POST['filters'];
 	$_SESSION['case_sensitive'] = isset($_POST['case_sensitive']);
@@ -11,6 +10,7 @@ if (isset($_POST['filters']) || isset($_POST['case_sensitive'])) {
 	$_SESSION['filters'] = array();
 	$_SESSION['case_sensitive'] = true;
 }
+/* uncoment to see Session variables printed to the page
 foreach ($_SESSION as $key => $value) {
 	if (is_array($value)) {
 		foreach ($value as $v) {
