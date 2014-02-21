@@ -25,6 +25,11 @@ p {
 	font-size:12pt;
 }
 
+code {
+	font-family: monospace;
+	background-color: white;
+}
+
 form, option, select, label {
 	font-size: 14pt;
 	color: black;

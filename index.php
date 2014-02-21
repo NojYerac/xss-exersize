@@ -54,7 +54,7 @@ $form = '<h2>Injectors</h2>' . formify('GET', BASE_URL, $inputs, array());
 $title = '<h1>Try to execute javascript.</h1>';
 
 $instructions = "<h2>Instructions</h2><p>Inject the javascript function call " .
-	"&quot;youWin()&quot to see a neat picture.</p>";
+	"<code>youWin()</code> to see a neat picture.</p>";
 
 $script_space = sprintf('<script>var MadeUp = \'%s\';</script>', $xss['script']);
 
@@ -94,4 +94,4 @@ $body = get_body(
 	array()
 );
 
-echo pprint(get_document(get_default_head(), $body, array()));
+echo (get_document(get_default_head(), $body, array()));
