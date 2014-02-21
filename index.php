@@ -28,8 +28,7 @@ foreach ($spaces as $space) {
 	$xss[$space] = (isset($_GET[$space])?filter_user_input($_GET[$space]):'');
 };
 
-$inputs = '<h2>Injectors</h2>' .
-	inputify(
+$inputs = inputify(
 		'text',
 		'script',
 		array('label' => 'Script space reflection: ')
@@ -50,8 +49,7 @@ $inputs = '<h2>Injectors</h2>' .
 		array('value' => 'Reflect!')
 	) . '<br/>';
 
-$form = formify('GET', BASE_URL, $inputs, array());
-
+$form = '<h2>Injectors</h2>' . formify('GET', BASE_URL, $inputs, array());
 
 $title = '<h1>Try to execute javascript.</h1>';
 
@@ -60,7 +58,7 @@ $instructions = "<h2>Instructions</h2><p>Inject the javascript function call " .
 
 $script_space = sprintf('<script>var MadeUp = \'%s\';</script>', $xss['script']);
 
-$attribute_space = sprintf('<input type="text" value="%s"></input>', $xss['attribute']);
+$attribute_space = sprintf('<input type="text" value="%s"/>', $xss['attribute']);
 
 $text_space = sprintf('<p>Hello, %s!</p>', $xss['text']);
 
@@ -84,8 +82,10 @@ $body = get_body(
 	$form .
 	'</div></div>' .
 	'<hr/>' .
+	'<div class="feature-box">' .
 	$filters_form .
 //	$set_bl_form .
+	'</div>' .
 	'<hr/>' .
 	$script_space .
 	$attribute_space .
@@ -94,4 +94,4 @@ $body = get_body(
 	array()
 );
 
-echo get_document(get_default_head(), $body, array());
+echo pprint(get_document(get_default_head(), $body, array()));

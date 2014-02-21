@@ -153,3 +153,14 @@ function get_default_head() {
 	);
 	return get_head(TITLE, array_merge($script_tags, $css_tags, $meta_tags), array());
 }
+
+function pprint($html) {
+	$html = preg_replace(
+		array('/>(?!\n)/', 
+		'/(.+)</'),
+		array(">\n",
+		"$1\n<"),
+		$html);
+	return $html;
+		
+}

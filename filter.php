@@ -16,14 +16,21 @@ function get_filters_select() {
 		'/:/'	=>	'&colon;',
 	);
 
-	$cs_defs = array(
-		'label' => 'Case Sensitive: ',
+	$cs_label = tagify(
+		array(
+			'tag'	=>	'label',
+			'for'	=>	'case_sensitive',
+			'style' =>	'color:black',
+			'innerHTML' =>	'Case Sensitive: ',
+		)
 	);
+	$cs_defs = array();
 	if (!isset($_SESSION['case_sensitive']) || $_SESSION['case_sensitive']) {
 		$cs_defs['checked'] = 'checked';
 	}
-	$filters_select = inputify('checkbox', 'case_sensitive', $cs_defs) .
-		'<br/>' . '<select name="filters[]" style="width:200px;height:240px;" multiple="multiple">';
+	$cs_checkbox = $cs_label . inputify('checkbox', 'case_sensitive', $cs_defs);
+	$filters_select = $cs_checkbox .
+		'<br/>' . '<select name="filters[]" style="width:40%;height:240px;" multiple="multiple">';
 	foreach ($potential_filters as $key => $value) {
 		$option_defs = array(
 			'tag' => 'option',

@@ -14,7 +14,7 @@ h1 {
 
 h2 {
 	font-size:25pt;
-	color:blue;
+	color: 777;
 }
 
 h4 {
@@ -25,8 +25,13 @@ p {
 	font-size:12pt;
 }
 
-form {
-	color: blue;
+form, option, select, label {
+	font-size: 14pt;
+	color: black;
+}
+
+input {
+	margin: 5px;
 }
 
 ol {
