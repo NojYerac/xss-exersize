@@ -1,6 +1,11 @@
 <?php
 
-function get_filters_select() {
+function get_filters() {
+	/* FIXME:
+	 * dumb list for now, but should be
+	 * stored in a database, editable
+	 * from * the admin panel.
+	 */
 	$potential_filters = array(
 		'/none/' =>	'none',
 		'/<script>/' =>	'',
@@ -15,7 +20,11 @@ function get_filters_select() {
 		'/;/'	=>	'&semi;',
 		'/:/'	=>	'&colon;',
 	);
-
+	return $potential_filters;
+}
+	
+function get_filters_select() {
+	$potential_filters = get_filters();
 	$cs_label = tagify(
 		array(
 			'tag'	=>	'label',
