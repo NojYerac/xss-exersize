@@ -3,7 +3,7 @@ function db_connect() {
 	switch (DB_TYPE) {
 		case 'MySQL':
 			$db_server = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-			if (!$db_server) die("Unable to connect to MySQL server: " . mysql_error());
+			if (!$db_server) die("Unable to connect to MySQL server: " . mysqli_error());
 			break;
 		case 'PgSQL':
 			die("Not implemented!");

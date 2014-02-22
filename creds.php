@@ -1,7 +1,16 @@
 <?php 
+require_once('db.php');
 if (!function_exists('password_hash')) {
 	require_once('password.php');
 }
+
+function get_priv($user_login) {
+	$query =  "SELECT user_priv FROM users WHERE user_login='%s'";
+	$result = db_query($query, array($user_login));
+	$user_priv = db_all_results($result)[0]['user_priv'];
+	return $user_priv;
+}
+
 
 function check_creds($login, $pass) {
 	$query = "SELECT user_pass FROM users WHERE user_login = '%s'";
