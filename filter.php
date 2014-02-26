@@ -22,8 +22,8 @@ function get_filters() {
 		'/:/'	=>	'&colon;',
 	);*/
 	$potential_filters = array();
-	$result = db_query('SELECT regex, replacement FROM filters');
-	$rows = db_all_results($results);
+	$result = db_query('SELECT regex, replacement FROM filters', array());
+	$rows = db_all_results($result);
 	foreach ($rows as $row) {
 		$potential_filters[$row['regex']] = $row['replacement'];
 	}
@@ -80,17 +80,22 @@ function get_filters_select() {
 }
 
 function filter_user_input($input) {
+	$potential_filters = get_filters();
 	$regexes = array();
 	$replaces = array();
-	foreach ($_SESSION['filters'] as $regex) {
-		if (!$_SESSION['case_sensitive']) {
-			$regexes[] = $regex . 'i';
-		} else {
-			$regexes[] = $regex;
+	if (isset($_SESSION['filters'])) {
+		foreach ($_SESSION['filters'] as $regex) {
+			if (!$_SESSION['case_sensitive']) {
+				$regexes[] = $regex . 'i';
+			} else {
+				$regexes[] = $regex;
+			}
+			$replaces[] = $potential_filters[$regex];
 		}
-		$replaces[] = $potential_filters[$regex];
+		return preg_replace($regexes, $replaces, $input);
+	} else {
+		return $input;
 	}
-	return preg_replace($regexes, $replaces, $input);
 }
 
 ?>
