@@ -1,11 +1,12 @@
 <?php
+require_once('db.php');
+
 
 function get_filters() {
 	/* FIXME:
 	 * dumb list for now, but should be
 	 * stored in a database, editable
 	 * from * the admin panel.
-	 */
 	$potential_filters = array(
 		'/none/' =>	'none',
 		'/<script>/' =>	'',
@@ -19,10 +20,31 @@ function get_filters() {
 		'/[()]/' =>	'',
 		'/;/'	=>	'&semi;',
 		'/:/'	=>	'&colon;',
-	);
+	);*/
+	$potential_filters = array();
+	$result = db_query('SELECT regex, replacement FROM filters');
+	$rows = db_all_results($results);
+	foreach ($rows as $row) {
+		$potential_filters[$row['regex']] = $row['replacement'];
+	}
 	return $potential_filters;
+
 }
-	
+
+function store_filter($title, $regex, $replacement, $comment) {
+	$query = 'INSERT into filters(title, regex, replacement, comment) VALUE("%s", "%s", "%s", "%s");';
+	$result = db_query($query, array($title, $regex, $replacement, $comment));
+}
+
+/* used once  to export dumb list to database
+function store_all_filters() {
+	$potential_filters = get_filters();
+	foreach ($potential_filters as $regex => $replacement) {
+		store_filter($regex, $regex, $replacement, 'No comment');
+	}
+}
+ */
+
 function get_filters_select() {
 	$potential_filters = get_filters();
 	$cs_label = tagify(

@@ -37,8 +37,8 @@ if (isset($_POST['user_login']) && isset($_POST['user_pass'])) {
 		http_response_code(302);
 		$dest =  BASE_URL . ($user_priv == 'admin')?'admin.php':'';
 		header('Location: ' . $dest);
-		echo "<a href=$dest>Redirect</a>" .
-			"<script>window.location=$dest</script>";
+		echo "<a href=\"$dest\">Redirect</a>" .
+			"<script>window.location='$dest'</script>";
 		exit();
 	} else {
 		$login_message = 'Failed login atempt';

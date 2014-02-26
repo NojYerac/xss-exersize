@@ -29,7 +29,7 @@ CREATE TABLE `filters` (
   `replacement` text NOT NULL,
   `comment` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `filters` (
 
 LOCK TABLES `filters` WRITE;
 /*!40000 ALTER TABLE `filters` DISABLE KEYS */;
+INSERT INTO `filters` VALUES (1,'/none/','/none/','none','No comment'),(2,'/<script>/','/<script>/','','No comment'),(3,'/</','/</','&lt;','No comment'),(4,'/>/','/>/','&gt;','No comment'),(5,'/\"/','/\"/','&quot;','No comment'),(6,'/\'/','/\'/','&apos;','No comment'),(7,'/on[a-z]*=/','/on[a-z]*=/','onxxx=','No comment'),(8,'/<.*>/','/<.*>/','<xxx>','No comment'),(9,'/=/','/=/','','No comment'),(10,'/[()]/','/[()]/','','No comment'),(11,'/;/','/;/','&semi;','No comment'),(12,'/:/','/:/','&colon;','No comment');
 /*!40000 ALTER TABLE `filters` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,4 +78,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-02-22  1:50:48
+-- Dump completed on 2014-02-26  0:16:08
