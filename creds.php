@@ -43,5 +43,15 @@ function set_creds($login, $pass) {
 	return true;
 }
 
+function password_is_acceptable($password) {
+	if (preg_match(
+		'/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,255}$/',
+		$password)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 ?>
 

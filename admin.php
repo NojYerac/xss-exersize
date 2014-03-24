@@ -25,17 +25,40 @@ if (!isset($_SESSION['user_priv']) || $_SESSION['user_priv'] != 'admin') {
 	echo 'Not Authorized';
 	exit();
 }
+
+function add_user($user_login, $user_pass, $verify_pass) {
+	if ($user_pass == $verify_pass && password_is_acceptable($user_pass)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 //handle database changes...
-if (isset($_GET['action'])) {
+if (isset($_GET['action']) && $csrf_passed) {
 	switch($_GET['action']) {
 	case 'add user':
 		// add user logic
+		if (add_user(
+			$_POST['new_user_login'],
+			$_POST['new_user_pass'],
+			$_POST['verify_new_user_pass'])
+		) {
+			echo "// add user successful";
+		} else {
+			echo "// add user failed";
+		}
+		break;
 	case 'new filter':
+		echo 'new filter';
 		// new filter logic
+		break;
 	case 'remove filter':
+		echo 'remove filter';
 		// remove filter logic
+		break;
 	default:
-		die('invalid action');
+		die("<br/>invalid action: csrf_passed=" . $csrf_passed);
 	}
 }
 //build the forms...
@@ -87,7 +110,7 @@ $new_filter_form = formify(
 );
 
 $admin_forms['new_filter'] = array(
-	'title' => 'New user',
+	'title' => 'New filter',
 	'innerHTML' => $new_filter_form
 );
 
