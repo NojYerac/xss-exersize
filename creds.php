@@ -53,5 +53,18 @@ function password_is_acceptable($password) {
 	}
 }
 
+function add_user($user_login, $user_pass, $verify_pass, $admin=false) {
+	if ($user_pass == $verify_pass && password_is_acceptable($user_pass)) {
+		$hashed_pass = password_hash($user_pass, 1);
+		$query = "INSERT into users(user_login, user_pass) VALUES ('%s', '$hashed_pass')";
+		db_query($query, array($user_login));
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+
 ?>
 

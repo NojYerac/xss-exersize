@@ -26,14 +26,6 @@ if (!isset($_SESSION['user_priv']) || $_SESSION['user_priv'] != 'admin') {
 	exit();
 }
 
-function add_user($user_login, $user_pass, $verify_pass) {
-	if ($user_pass == $verify_pass && password_is_acceptable($user_pass)) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
 //handle database changes...
 if (isset($_GET['action']) && $csrf_passed) {
 	switch($_GET['action']) {
@@ -160,7 +152,7 @@ foreach ($admin_forms as $key => $value) {
 	$buttons .= tagify(
 		array(
 			'tag' => 'button',
-			'onclick' => "toggleVisible('${key}_div')", //TODO: add toggleVisible to javascript
+			'onclick' => "toggleVisible('${key}_div')",
 			'innerHTML' => $value['title'],
 			'class' => 'header_button'
 		)
